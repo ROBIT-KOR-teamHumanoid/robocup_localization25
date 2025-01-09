@@ -560,42 +560,85 @@ void MainWindow::Print_Screen() // ui 출력
   // if(qnode->visionMSG.Scan_mode != 3){qnode->robot_sight_flag = 0; qnode->Likelihood.vision_point_vect.clear();}
 
   // 비전에서 측정된 특징점 표시
-  for (int i = 0; i < 27; i++)
+  // 그룹 1 특징점
+  for (int i = 0; i < 22; i++)
   {
-    if (qnode->Likelihood.Local_point_on_off[i] == 1)
+    if (qnode->Likelihood.Local_point_on_off_1[i] == 1)
     {
-      scene->addEllipse(cvt_Print_xy(qnode->Likelihood.Local_point_x[i]) - 4, cvt_Print_xy(qnode->Likelihood.Local_point_y[i]) - 4, 8, 8, blackPen1);
+      scene->addEllipse(cvt_Print_xy(qnode->Likelihood.Local_point_x_1[i]) - 4, cvt_Print_xy(qnode->Likelihood.Local_point_y_1[i]) - 4, 8, 8, blackPen1);
     }
   }
+  // 그룹 3 득징점
+  for (int i = 0; i < 5; i++)
+  {
+    if (qnode->Likelihood.Local_point_on_off_3[i] == 1)
+    {
+      scene->addEllipse(cvt_Print_xy(qnode->Likelihood.Local_point_x_3[i]) - 4, cvt_Print_xy(qnode->Likelihood.Local_point_y_3[i]) - 4, 8, 8, blackPen1);
+    }
+  }
+
   // cout<<qnode->Likelihood.vision_point_vect.size()<<endl;
-  for (int i = 0; i < qnode->Likelihood.vision_point_vect.size(); i++)
+  // 그룹 1 특징점
+  for (int i = 0; i < qnode->Likelihood.vision_point_vect_1.size(); i++)
   {
     // 파티클 중 신뢰도가 0.9이상인 파티클의 특징점 위치 출력
-    if (qnode->Likelihood.vision_point_vect[i].CONFIDENCE > 0.9)
+    if (qnode->Likelihood.vision_point_vect_1[i].CONFIDENCE > 0.9)
     {
-      scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), LocalPen1);
+      scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_X + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_Y + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_X + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_Y + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_Y), LocalPen1);
     }
     // 파티클 중 신뢰도가 0.7이상인 파티클의 특징점 위치 출력
-    else if (qnode->Likelihood.vision_point_vect[i].CONFIDENCE > 0.7)
+    else if (qnode->Likelihood.vision_point_vect_1[i].CONFIDENCE > 0.7)
     {
-      scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), LocalPen2);
+      scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_X + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_Y + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_X + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_Y + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_Y), LocalPen2);
     }
     // 파티클 중 신뢰도가 0.5이상인 파티클의 특징점 위치 출력
-    else if (qnode->Likelihood.vision_point_vect[i].CONFIDENCE > 0.5)
+    else if (qnode->Likelihood.vision_point_vect_1[i].CONFIDENCE > 0.5)
     {
-      scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), LocalPen3);
+      scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_X + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_Y + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_X + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_1[i].STD_Y + qnode->Likelihood.vision_point_vect_1[i].POINT_VEC_Y), LocalPen3);
     }
     //        else
     //        {
     //            scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), LocalPen4);
     //        }
   }
-  if (qnode->Likelihood.vision_point_vect.size() != 0)
+  if (qnode->Likelihood.vision_point_vect_1.size() != 0)
   {
     // cout<<qnode->Likelihood.CIRCLE_R<<endl;
     scene->addEllipse(cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.x - qnode->Likelihood.CIRCLE_R), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.y - qnode->Likelihood.CIRCLE_R), cvt_Print_xy(qnode->Likelihood.CIRCLE_R * 2), cvt_Print_xy(qnode->Likelihood.CIRCLE_R * 2), blackPen);
     // scene->addLine(cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.x), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.y), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.x), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.y), targetPen);
   }
+
+  // 그룹 3 특징점
+  for (int i = 0; i < qnode->Likelihood.vision_point_vect_3.size(); i++)
+  {
+    // 파티클 중 신뢰도가 0.9이상인 파티클의 특징점 위치 출력
+    if (qnode->Likelihood.vision_point_vect_3[i].CONFIDENCE > 0.9)
+    {
+      scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y), LocalPen1);
+    }
+    // 파티클 중 신뢰도가 0.7이상인 파티클의 특징점 위치 출력
+    else if (qnode->Likelihood.vision_point_vect_3[i].CONFIDENCE > 0.7)
+    {
+      scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y), LocalPen2);
+    }
+    // 파티클 중 신뢰도가 0.5이상인 파티클의 특징점 위치 출력
+    else if (qnode->Likelihood.vision_point_vect_3[i].CONFIDENCE > 0.5)
+    {
+      scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y), LocalPen3);
+    }
+    //        else
+    //        {
+    //            scene->addLine(cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_X + qnode->Likelihood.vision_point_vect[i].POINT_VEC_X), cvt_Print_xy(qnode->Likelihood.vision_point_vect[i].STD_Y + qnode->Likelihood.vision_point_vect[i].POINT_VEC_Y), LocalPen4);
+    //        }
+  }
+  if (qnode->Likelihood.vision_point_vect_3.size() != 0)
+  {
+    // cout<<qnode->Likelihood.CIRCLE_R<<endl;
+    scene->addEllipse(cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.x - qnode->Likelihood.CIRCLE_R), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.y - qnode->Likelihood.CIRCLE_R), cvt_Print_xy(qnode->Likelihood.CIRCLE_R * 2), cvt_Print_xy(qnode->Likelihood.CIRCLE_R * 2), blackPen);
+    // scene->addLine(cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.x), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.y), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.x), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.y), targetPen);
+  }
+
+
 
   // PRINT MASTER TARGET
   if (qnode->master_target_x != 0 || qnode->master_target_y != 0)
@@ -783,7 +826,7 @@ int MainWindow::cvt_Print_xy(float target)
 
 void MainWindow::featureCalc()
 {
-  if (qnode->Likelihood.vision_point_vect.size() > 100) // 비전에서 충분한 양의 특징점 데이터를 찾을 시 실행
+  if (qnode->Likelihood.vision_point_vect_1.size() > 50 && qnode->Likelihood.vision_point_vect_3.size() > 50) // 비전에서 충분한 양의 특징점 데이터를 찾을 시 실행
   {
     if (qnode->vision_data_size / qnode->vision_data_cnt <= 1)
     {
@@ -794,9 +837,9 @@ void MainWindow::featureCalc()
     } // 비전에서 충분하지 못한 시간동안 데이터를 찾을 경우 파티클 재생성
     for (int i = 0; i < PARTICLE_NUM; i++)
     {
-      qnode->Likelihood.set_circle(qnode->robot0.z, qnode->Likelihood.vision_point_vect);                                                                  // 파티클 위치의 제한 설정
+      qnode->Likelihood.set_circle(qnode->robot0.z, qnode->Likelihood.vision_point_vect_1, qnode->Likelihood.vision_point_vect_3);                                                                  // 파티클 위치의 제한 설정
       measurement.NUM = i;                                                                                                                                 // 파티클의 가중치를 저장하는 measurement의 NUM 값에 번호 부여
-      measurement.WEIGHT = qnode->Likelihood.sence(qnode->pt[i].x, qnode->pt[i].y, qnode->robot0.x, qnode->robot0.y, qnode->Likelihood.vision_point_vect); // 파티클의 가중치를 저장하는 measurement의 WEIGHT에 해당 파티클의 가중치를 계산 한 후 가중치 값 저장
+      measurement.WEIGHT = qnode->Likelihood.sence(qnode->pt[i].x, qnode->pt[i].y, qnode->robot0.x, qnode->robot0.y, qnode->Likelihood.vision_point_vect_1, qnode->Likelihood.vision_point_vect_3); // 파티클의 가중치를 저장하는 measurement의 WEIGHT에 해당 파티클의 가중치를 계산 한 후 가중치 값 저장
       // cout << "i : " << i << "  " << measurement.WEIGHT << endl;
       double dis = sqrt(pow(qnode->pt[i].x - qnode->robot0.x, 2) + pow(qnode->pt[i].y - qnode->robot0.y, 2)); // 파티클과 로봇의 위치 사이의 거리 계산
       // cout << "dis 1 : " << dis << endl;
@@ -835,28 +878,44 @@ void MainWindow::featureCalc()
       qnode->pt[i].random_point(qnode->robot0.x, qnode->robot0.y, particle_range);
     } // 파티클 재생성
 
-    qnode->Likelihood.check_local_point(50, qnode->robot0.z, qnode->Likelihood.vision_point_vect); // 특징점이 로봇 근처에 있는지에 따라 해당 특징점 활성화 또는 비활성화
+    qnode->Likelihood.check_local_point(50, qnode->robot0.z, qnode->Likelihood.vision_point_vect_1, qnode->Likelihood.vision_point_vect_3); // 특징점이 로봇 근처에 있는지에 따라 해당 특징점 활성화 또는 비활성화
 
     // qnode->robot_sight_flag = 0;
     particle_weight.clear();                     // particle_weight 벡터 컨테이너 초기화
-    qnode->Likelihood.vision_point_vect.clear(); // qnode->Likelihood.vision_point_vect 벡터 컨테이너 초기화
+    qnode->Likelihood.vision_point_vect_1.clear(); // qnode->Likelihood.vision_point_vect_1 벡터 컨테이너 초기화
+    qnode->Likelihood.vision_point_vect_3.clear(); // qnode->Likelihood.vision_point_vect_3 벡터 컨테이너 초기화
 
     // qnode->vision_data_cnt 및 qnode->vision_data_size 변수 초기화
     qnode->vision_data_cnt = 0;
     qnode->vision_data_size = 0;
 
-    for (int i = 0; i < 27; i++) // 모든 로컬 포인트 체크
+    for (int i = 0; i < 22; i++) // 모든 로컬 포인트 체크
     {
-      if (qnode->Likelihood.Local_point_check[i] == 1) // 특정 로컬 포인트가 활성화 된 상태일 시 실행
+      if (qnode->Likelihood.Local_point_check_1[i] == 1) // 특정 로컬 포인트가 활성화 된 상태일 시 실행
       {
         // qnode->Likelihood에 데이터 저장
-        qnode->Likelihood.vision_point.CONFIDENCE = 0.1;
-        qnode->Likelihood.vision_point.DISTANCE = 1;
-        qnode->Likelihood.vision_point.POINT_VEC_X = qnode->Likelihood.Local_point_x[i] - qnode->robot0.x;
-        qnode->Likelihood.vision_point.POINT_VEC_Y = qnode->Likelihood.Local_point_y[i] - qnode->robot0.y;
-        qnode->Likelihood.vision_point.STD_X = qnode->robot0.x;
-        qnode->Likelihood.vision_point.STD_Y = qnode->robot0.y;
-        qnode->Likelihood.vision_point_vect.push_back(qnode->Likelihood.vision_point);
+        qnode->Likelihood.vision_point_1.CONFIDENCE = 0.1;
+        qnode->Likelihood.vision_point_1.DISTANCE = 1;
+        qnode->Likelihood.vision_point_1.POINT_VEC_X = qnode->Likelihood.Local_point_x_1[i] - qnode->robot0.x;
+        qnode->Likelihood.vision_point_1.POINT_VEC_Y = qnode->Likelihood.Local_point_y_1[i] - qnode->robot0.y;
+        qnode->Likelihood.vision_point_1.STD_X = qnode->robot0.x;
+        qnode->Likelihood.vision_point_1.STD_Y = qnode->robot0.y;
+        qnode->Likelihood.vision_point_vect_1.push_back(qnode->Likelihood.vision_point_1);
+      }
+    }
+
+    for (int i = 0; i < 5; i++) // 모든 로컬 포인트 체크
+    {
+      if (qnode->Likelihood.Local_point_check_3[i] == 1) // 특정 로컬 포인트가 활성화 된 상태일 시 실행
+      {
+        // qnode->Likelihood에 데이터 저장
+        qnode->Likelihood.vision_point_3.CONFIDENCE = 0.1;
+        qnode->Likelihood.vision_point_3.DISTANCE = 1;
+        qnode->Likelihood.vision_point_3.POINT_VEC_X = qnode->Likelihood.Local_point_x_3[i] - qnode->robot0.x;
+        qnode->Likelihood.vision_point_3.POINT_VEC_Y = qnode->Likelihood.Local_point_y_3[i] - qnode->robot0.y;
+        qnode->Likelihood.vision_point_3.STD_X = qnode->robot0.x;
+        qnode->Likelihood.vision_point_3.STD_Y = qnode->robot0.y;
+        qnode->Likelihood.vision_point_vect_3.push_back(qnode->Likelihood.vision_point_3);
       }
     }
   }
@@ -1191,7 +1250,8 @@ void MainWindow::on_btn_test_clicked()
   qnode->ball4.y = 0;
   qnode->ball4.d = 999999;
 
-  qnode->Likelihood.vision_point_vect.clear();
+  qnode->Likelihood.vision_point_vect_1.clear();
+  qnode->Likelihood.vision_point_vect_3.clear();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
