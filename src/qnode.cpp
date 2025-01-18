@@ -53,25 +53,41 @@ void QNode::run()
 
 void QNode::visionFeatureCallback(const humanoid_interfaces::msg::Robocupvision25feature::SharedPtr msg)
 {
-
-  for (int i = 0; i < msg->confidence.size(); i++)
+  // 그룹 1의 특징점 수집
+  for (int i = 0; i < msg->confidence_1.size(); i++)  // 그룹 1
   {
     vision_data_cnt += 1;
-    vision_data_size += msg->confidence.size();
-    Likelihood.vision_point.CONFIDENCE = msg->confidence[i];
-    Likelihood.vision_point.DISTANCE = msg->distance[i];
-    Likelihood.vision_point.POINT_VEC_X = (-1) * (msg->point_vec_x[i] / 10 * cos((robot0.z) * M_PI / 180) + msg->point_vec_y[i] / 10 * sin((robot0.z) * M_PI / 180));
-    Likelihood.vision_point.POINT_VEC_Y = (msg->point_vec_x[i] / 10 * sin((robot0.z) * M_PI / 180) - msg->point_vec_y[i] / 10 * cos((robot0.z) * M_PI / 180));
-    Likelihood.vision_point.STD_X = robot0.x;
-    Likelihood.vision_point.STD_Y = robot0.y;
-    Likelihood.vision_point_vect.push_back(Likelihood.vision_point);
+    vision_data_size += msg->confidence_1.size();
 
-    Likelihood.set_circle(robot0.z, Likelihood.vision_point_vect);
-
-    Likelihood.on_local_point(robot0.x, robot0.y, robot0.x, robot0.y);
-
-    emit featureReceived();
+    Likelihood.vision_point_1.CONFIDENCE = msg->confidence_1[i];
+    Likelihood.vision_point_1.DISTANCE = msg->distance_1[i];
+    Likelihood.vision_point_1.POINT_VEC_X = (-1) * (msg->point_vec_x_1[i] / 10 * cos((robot0.z) * M_PI / 180) + msg->point_vec_y_1[i] / 10 * sin((robot0.z) * M_PI / 180));
+    Likelihood.vision_point_1.POINT_VEC_Y = (msg->point_vec_x_1[i] / 10 * sin((robot0.z) * M_PI / 180) - msg->point_vec_y_1[i] / 10 * cos((robot0.z) * M_PI / 180));
+    Likelihood.vision_point_1.STD_X = robot0.x;
+    Likelihood.vision_point_1.STD_Y = robot0.y;
+    Likelihood.vision_point_vect_1.push_back(Likelihood.vision_point_1);
   }
+
+  // 그룹 3의 특징점 수집
+  for (int i = 0; i < msg->confidence_3.size(); i++)  // 그룹 3
+  {
+    vision_data_cnt += 1;
+    vision_data_size += msg->confidence_3.size();
+
+    Likelihood.vision_point_3.CONFIDENCE = msg->confidence_3[i];
+    Likelihood.vision_point_3.DISTANCE = msg->distance_3[i];
+    Likelihood.vision_point_3.POINT_VEC_X = (-1) * (msg->point_vec_x_3[i] / 10 * cos((robot0.z) * M_PI / 180) + msg->point_vec_y_3[i] / 10 * sin((robot0.z) * M_PI / 180));
+    Likelihood.vision_point_3.POINT_VEC_Y = (msg->point_vec_x_3[i] / 10 * sin((robot0.z) * M_PI / 180) - msg->point_vec_y_3[i] / 10 * cos((robot0.z) * M_PI / 180));
+    Likelihood.vision_point_3.STD_X = robot0.x;
+    Likelihood.vision_point_3.STD_Y = robot0.y;
+    Likelihood.vision_point_vect_3.push_back(Likelihood.vision_point_3);
+  }
+
+  // 그룹 1과 그룹 3의 특징점을 모두 수집한 후 처리
+  Likelihood.set_circle(robot0.z, Likelihood.vision_point_vect_1, Likelihood.vision_point_vect_3);
+  Likelihood.on_local_point(robot0.x, robot0.y, robot0.x, robot0.y);
+
+  emit featureReceived();
 }
 
 void QNode::imuCallback(const humanoid_interfaces::msg::ImuMsg::SharedPtr msg)
