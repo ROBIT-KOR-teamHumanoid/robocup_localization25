@@ -613,14 +613,14 @@ void MainWindow::Print_Screen() // ui 출력
     // scene->addLine(cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.x), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.y), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.x), cvt_Print_xy(qnode->Likelihood.CIRCLE_CENTER.y), targetPen);
   }
 
-  std::cout << "vision_point_vect_3.size() : " << qnode->Likelihood.vision_point_vect_3.size() << std::endl;
+  //std::cout << "vision_point_vect_3.size() : " << qnode->Likelihood.vision_point_vect_3.size() << std::endl;
   // 그룹 3 특징점
   for (int i = 0; i < qnode->Likelihood.vision_point_vect_3.size(); i++)
   {
-    std::cout << cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X) << std::endl;
-    std::cout << cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y) << std::endl;
-    std::cout << cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X) << std::endl;
-    std::cout << cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y) << std::endl;
+    //std::cout << cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X) << std::endl;
+    //std::cout << cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y) << std::endl;
+    //std::cout << cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_X + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_X) << std::endl;
+    //std::cout << cvt_Print_xy(qnode->Likelihood.vision_point_vect_3[i].STD_Y + qnode->Likelihood.vision_point_vect_3[i].POINT_VEC_Y) << std::endl;
     // 파티클 중 신뢰도가 0.9이상인 파티클의 특징점 위치 출력
     if (qnode->Likelihood.vision_point_vect_3[i].CONFIDENCE > 0.9)
     {
@@ -836,7 +836,9 @@ int MainWindow::cvt_Print_xy(float target)
 
 void MainWindow::featureCalc()
 {
-  if (qnode->Likelihood.vision_point_vect_1.size() > 50 && qnode->Likelihood.vision_point_vect_3.size() > 50) // 비전에서 충분한 양의 특징점 데이터를 찾을 시 실행
+  //cout << "vision_point_vect_1.size() : " << qnode->Likelihood.vision_point_vect_1.size() << endl;
+  //cout << "vision_point_vect_3.size() : " << qnode->Likelihood.vision_point_vect_3.size() << endl;
+  if (qnode->Likelihood.vision_point_vect_1.size() > 50 || qnode->Likelihood.vision_point_vect_3.size() > 50) // 비전에서 충분한 양의 특징점 데이터를 찾을 시 실행
   {
     if (qnode->vision_data_size / qnode->vision_data_cnt <= 1)
     {
@@ -850,7 +852,7 @@ void MainWindow::featureCalc()
       qnode->Likelihood.set_circle(qnode->robot0.z, qnode->Likelihood.vision_point_vect_1, qnode->Likelihood.vision_point_vect_3);                                                                  // 파티클 위치의 제한 설정
       measurement.NUM = i;                                                                                                                                 // 파티클의 가중치를 저장하는 measurement의 NUM 값에 번호 부여
       measurement.WEIGHT = qnode->Likelihood.sence(qnode->pt[i].x, qnode->pt[i].y, qnode->robot0.x, qnode->robot0.y, qnode->Likelihood.vision_point_vect_1, qnode->Likelihood.vision_point_vect_3); // 파티클의 가중치를 저장하는 measurement의 WEIGHT에 해당 파티클의 가중치를 계산 한 후 가중치 값 저장
-      // cout << "i : " << i << "  " << measurement.WEIGHT << endl;
+      //cout << "pt : " << i << "  x : " << qnode->pt[i].x << "   y : " << qnode->pt[i].y << endl;
       double dis = sqrt(pow(qnode->pt[i].x - qnode->robot0.x, 2) + pow(qnode->pt[i].y - qnode->robot0.y, 2)); // 파티클과 로봇의 위치 사이의 거리 계산
       // cout << "dis 1 : " << dis << endl;
       //  dis /= particle_range;
@@ -859,12 +861,12 @@ void MainWindow::featureCalc()
       {
         dis = 1;
       } // 나눗셈 결과 값이 1 이하일때 예외처리
-      measurement.WEIGHT /= dis;              // 가중치에 거리 값 나눗셈
+      //measurement.WEIGHT /= dis;              // 가중치에 거리 값 나눗셈
       particle_weight.push_back(measurement); // particle_weight 벡터 컨테이너에 해당 measurement값 저장
       // cout << "i : " << i << "  " << measurement.WEIGHT << endl;
     }
     sort(particle_weight.begin(), particle_weight.end(), sort_return); // particle_weight 벡터 컨테이너 정렬
-    if (particle_weight[0].WEIGHT > 30)                                // 가장 가중치가 높은 값이 30 이상일 경우 실행
+    if (particle_weight[0].WEIGHT > 15)                                // 가장 가중치가 높은 값이 30 이상일 경우 실행
     {
       if (qnode->vision_data_size / qnode->vision_data_cnt <= 1)
       {
@@ -878,10 +880,13 @@ void MainWindow::featureCalc()
       // qnode->robot0의 데이터를 가장 가중치가 높은 값으로 설정
       qnode->robot0.x = qnode->pt[particle_weight[0].NUM].x; //(qnode->pt[particle_weight[0].NUM].x + qnode->pt[particle_weight[1].NUM].x + qnode->pt[particle_weight[2].NUM].x) / 3;
       qnode->robot0.y = qnode->pt[particle_weight[0].NUM].y; //(qnode->pt[particle_weight[0].NUM].y + qnode->pt[particle_weight[1].NUM].y + qnode->pt[particle_weight[2].NUM].y) / 3;
+
+      cout << "robot0.x : " << qnode->robot0.x << "  robot0.y : " << qnode->robot0.y << std::endl;
     }
     else
     {
       cout << "FAIL!! : " << particle_weight[0].WEIGHT << endl;
+      cout << "x : " << qnode->pt[particle_weight[0].NUM].x << "  y : " << qnode->pt[particle_weight[0].NUM].y << endl;
     } // 그렇지 않을 경우 가중치 값 및 실패 메세지 출력
     for (int i = 0; i < PARTICLE_NUM; i++)
     {

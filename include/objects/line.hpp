@@ -146,8 +146,18 @@ public:
             }
         }
 
-        // 로봇의 좌표에서 최대 거리 값과 최소 거리 값의 평균 값을 더한 후 해당 값을 범위의 중앙으로 설정
-        CIRCLE_CENTER = Point((int)(vect1[0].STD_X + ((X_MAX + X_MIN) / 2) * cos(yaw * DEG2RAD) - ((Y_MAX + Y_MIN) / 2) * sin(yaw * DEG2RAD)), (int)(vect1[0].STD_Y + ((X_MAX + X_MIN) / 2) * sin(yaw * DEG2RAD) + ((Y_MAX + Y_MIN) / 2) * cos(yaw * DEG2RAD)));
+        if (vect1.size() > 0)
+        {
+            // 로봇의 좌표에서 최대 거리 값과 최소 거리 값의 평균 값을 더한 후 해당 값을 범위의 중앙으로 설정
+            CIRCLE_CENTER = Point((int)(vect1[0].STD_X + ((X_MAX + X_MIN) / 2) * cos(yaw * DEG2RAD) - ((Y_MAX + Y_MIN) / 2) * sin(yaw * DEG2RAD)), (int)(vect1[0].STD_Y + ((X_MAX + X_MIN) / 2) * sin(yaw * DEG2RAD) + ((Y_MAX + Y_MIN) / 2) * cos(yaw * DEG2RAD)));
+        }
+        else
+        {
+            CIRCLE_CENTER = Point((int)(vect3[0].STD_X + ((X_MAX + X_MIN) / 2) * cos(yaw * DEG2RAD) - ((Y_MAX + Y_MIN) / 2) * sin(yaw * DEG2RAD)), (int)(vect3[0].STD_Y + ((X_MAX + X_MIN) / 2) * sin(yaw * DEG2RAD) + ((Y_MAX + Y_MIN) / 2) * cos(yaw * DEG2RAD)));
+        }
+
+
+
 
         // 로봇의 좌표에서 최대 거리 값과 최소 거리 값의 평균 값을 뺀 후 해당 값에서 +50 한 값을 범위의 반지름으로 설정
         CIRCLE_R = 0;
@@ -264,9 +274,17 @@ public:
             }
         }
 
+        if (vect1.size() > 0)
+        {
+            // 로봇의 좌표에서 최대 거리 값과 최소 거리 값의 평균 값을 더한 후 해당 값을 범위의 중앙으로 설정
+            CIRCLE_CENTER = Point((int)(vect1[0].STD_X + ((X_MAX + X_MIN) / 2) * cos(yaw * DEG2RAD) - ((Y_MAX + Y_MIN) / 2) * sin(yaw * DEG2RAD)), (int)(vect1[0].STD_Y + ((X_MAX + X_MIN) / 2) * sin(yaw * DEG2RAD) + ((Y_MAX + Y_MIN) / 2) * cos(yaw * DEG2RAD)));
+        }
+        else
+        {
+            CIRCLE_CENTER = Point((int)(vect3[0].STD_X + ((X_MAX + X_MIN) / 2) * cos(yaw * DEG2RAD) - ((Y_MAX + Y_MIN) / 2) * sin(yaw * DEG2RAD)), (int)(vect3[0].STD_Y + ((X_MAX + X_MIN) / 2) * sin(yaw * DEG2RAD) + ((Y_MAX + Y_MIN) / 2) * cos(yaw * DEG2RAD)));
+        }
 
-        // 로봇의 좌표에서 최대 거리 값과 최소 거리 값의 평균 값을 더한 후 해당 값을 범위의 중앙으로 설정
-        CIRCLE_CENTER = Point((int)(vect1[0].STD_X + ((X_MAX + X_MIN) / 2) * cos(yaw * DEG2RAD) - ((Y_MAX + Y_MIN) / 2) * sin(yaw * DEG2RAD)), (int)(vect1[0].STD_Y + ((X_MAX + X_MIN) / 2) * sin(yaw * DEG2RAD) + ((Y_MAX + Y_MIN) / 2) * cos(yaw * DEG2RAD)));
+
 
         // 로봇의 좌표에서 최대 거리 값과 최소 거리 값의 평균 값을 뺀 후 해당 값에서 +50 한 값을 범위의 반지름으로 설정
         CIRCLE_R = 0;
@@ -333,10 +351,11 @@ public:
         for (int i = 0; i < vect1.size(); i++)
         // 비전에서 포착한 포인트 수 많큼 연산
         {
+
             // pt = 파티클 좌표 + 계산에 사용된 로봇의 좌표 - 현 상태의 로봇 좌표 + 특징점과 로봇 사이의 거리
             int ptx = PT_X + vect1[i].STD_X - NOW_X + vect1[i].POINT_VEC_X;
             int pty = PT_Y + vect1[i].STD_Y - NOW_Y + vect1[i].POINT_VEC_Y;
-
+            //std::cout << "vec1 : " << "ptx : " << ptx << "  pty : " << pty << std::endl;
             double min_dis = 99999999;
 
             for (int j = 0; j < 22; j++)
@@ -373,26 +392,42 @@ public:
         {
             int ptx = PT_X + vect3[i].STD_X - NOW_X + vect3[i].POINT_VEC_X;
             int pty = PT_Y + vect3[i].STD_Y - NOW_Y + vect3[i].POINT_VEC_Y;
-            double min_dis = 99999999;
+
+            //std::cout << "vec3 : " << "ptx : " << ptx << "  pty : " << pty << std::endl;
+            double min_dis_2 = 99999999;
 
             for (int j = 0; j < 5; j++)  // 그룹 3 특징점
             {
+
+                double dis = 99999999;
                 if (Local_point_on_off_3[j] == 1)
                 {
-                    double dis = sqrt(pow(Local_point_x_3[j] - ptx, 2) + pow(Local_point_y_3[j] - pty, 2));
-                    min_dis = min(min_dis, dis);
+                    dis = sqrt(pow(Local_point_x_3[j] - ptx, 2) + pow(Local_point_y_3[j] - pty, 2));
+
+                }
+                if (min_dis_2 > dis)
+                {
+                    min_dis_2 = dis;
                 }
             }
 
-            if (min_dis <= 10) //최소 거리 보정
+            if (min_dis_2 <= 10) //최소 거리 보정
             {
-                min_dis = 10;
+                min_dis_2 = 10;
             }
-            weight_3 += (10 / min_dis) * vect3[i].CONFIDENCE * abs(1 - vect3[i].DISTANCE / 10000);
+
+            //std::cout << "confidence  " << i << " : " << vect3[i].CONFIDENCE << std::endl;
+            //std::cout << "distance  " << i << " : " << vect3[i].DISTANCE << std::endl;
+            //std::cout << "min_dis  " << i << " : " << min_dis << std::endl;
+            weight_3 += (10 / min_dis_2) * vect3[i].CONFIDENCE * abs(1 - vect3[i].DISTANCE / 10000);
         }
 
         // 최종 가중치 계산 (비율 적용 가능)
-        double final_weight = 0.7 * weight_1 + 0.3 * weight_3;  // 그룹 1과 3의 비율 조정
+
+        double final_weight = weight_1 + weight_3;  // 그룹 1과 3의 비율 조정
+
+        // std::cout << "weight_1 : " << weight_1 << std::endl;
+        // std::cout << "weight_3 : " << weight_3 << std::endl;
         return final_weight;
     }
     //    double sence(int PT_X, int PT_Y, int NOW_X, int NOW_Y, vector<VISION_POINT> &vect)
