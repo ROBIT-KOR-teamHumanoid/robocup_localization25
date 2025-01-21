@@ -897,9 +897,18 @@ void MainWindow::featureCalc()
 
     // qnode->robot_sight_flag = 0;
     particle_weight.clear();                     // particle_weight 벡터 컨테이너 초기화
-    qnode->Likelihood.vision_point_vect_1.clear(); // qnode->Likelihood.vision_point_vect_1 벡터 컨테이너 초기화
-    qnode->Likelihood.vision_point_vect_3.clear(); // qnode->Likelihood.vision_point_vect_3 벡터 컨테이너 초기화
 
+
+    if (qnode->Likelihood.vision_point_vect_1.size() > 0)
+    {
+      qnode->Likelihood.vision_point_vect_1.clear(); // qnode->Likelihood.vision_point_vect_1 벡터 컨테이너 초기화
+    }
+    if (qnode->Likelihood.vision_point_vect_3.size() > 0)
+    {
+      qnode->Likelihood.vision_point_vect_3.clear(); // qnode->Likelihood.vision_point_vect_3 벡터 컨테이너 초기화
+    }
+    
+    
     // qnode->vision_data_cnt 및 qnode->vision_data_size 변수 초기화
     qnode->vision_data_cnt = 0;
     qnode->vision_data_size = 0;
