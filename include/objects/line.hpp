@@ -151,7 +151,7 @@ public:
             // 로봇의 좌표에서 최대 거리 값과 최소 거리 값의 평균 값을 더한 후 해당 값을 범위의 중앙으로 설정
             CIRCLE_CENTER = Point((int)(vect1[0].STD_X + ((X_MAX + X_MIN) / 2) * cos(yaw * DEG2RAD) - ((Y_MAX + Y_MIN) / 2) * sin(yaw * DEG2RAD)), (int)(vect1[0].STD_Y + ((X_MAX + X_MIN) / 2) * sin(yaw * DEG2RAD) + ((Y_MAX + Y_MIN) / 2) * cos(yaw * DEG2RAD)));
         }
-        else
+        if (vect3.size() > 0)
         {
             CIRCLE_CENTER = Point((int)(vect3[0].STD_X + ((X_MAX + X_MIN) / 2) * cos(yaw * DEG2RAD) - ((Y_MAX + Y_MIN) / 2) * sin(yaw * DEG2RAD)), (int)(vect3[0].STD_Y + ((X_MAX + X_MIN) / 2) * sin(yaw * DEG2RAD) + ((Y_MAX + Y_MIN) / 2) * cos(yaw * DEG2RAD)));
         }
