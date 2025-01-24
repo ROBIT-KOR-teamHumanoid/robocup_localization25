@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
   // 맵 이미지의 절대주소를 저장하는 QString 변수
 
-  QString img_path = "/home/robit/colcoln_ws/src/robocup_localization25/resources/Map/2022_RoboCup_Field.png";
+  QString img_path = "/home/robit/colcon_ws/src/robocup_localization25/resources/Map/2022_RoboCup_Field.png";
   QImage img(img_path);          // QString 변수를 이용한 QImage 변수
   buf = QPixmap::fromImage(img); // QPixmap을 저장하는 버퍼
   buf = buf.scaled(825, 600);    // 버퍼 리스케일링
