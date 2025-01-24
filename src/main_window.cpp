@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
   // 맵 이미지의 절대주소를 저장하는 QString 변수
 
-  QString img_path = "/home/robit/colcon_ws/src/robocup_localization25/resources/Map/2022_RoboCup_Field.png";
+  QString img_path = "/home/robit/colcoln_ws/src/robocup_localization25/resources/Map/2022_RoboCup_Field.png";
   QImage img(img_path);          // QString 변수를 이용한 QImage 변수
   buf = QPixmap::fromImage(img); // QPixmap을 저장하는 버퍼
   buf = buf.scaled(825, 600);    // 버퍼 리스케일링
@@ -898,17 +898,15 @@ void MainWindow::featureCalc()
     // qnode->robot_sight_flag = 0;
     particle_weight.clear();                     // particle_weight 벡터 컨테이너 초기화
 
-
-    if (qnode->Likelihood.vision_point_vect_1.size() > 0)
+    if (qnode->Likelihood.vision_point_vect_1.size() > 0) // 비전에서 충분한 양의 특징점 데이터를 찾을 시 실행
     {
       qnode->Likelihood.vision_point_vect_1.clear(); // qnode->Likelihood.vision_point_vect_1 벡터 컨테이너 초기화
     }
-    if (qnode->Likelihood.vision_point_vect_3.size() > 0)
+    if (qnode->Likelihood.vision_point_vect_3.size() > 0) // 비전에서 충분한 양의 특징점 데이터를 찾을 시 실행
     {
       qnode->Likelihood.vision_point_vect_3.clear(); // qnode->Likelihood.vision_point_vect_3 벡터 컨테이너 초기화
     }
-    
-    
+
     // qnode->vision_data_cnt 및 qnode->vision_data_size 변수 초기화
     qnode->vision_data_cnt = 0;
     qnode->vision_data_size = 0;
