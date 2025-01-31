@@ -866,7 +866,7 @@ void MainWindow::featureCalc()
       // cout << "i : " << i << "  " << measurement.WEIGHT << endl;
     }
     sort(particle_weight.begin(), particle_weight.end(), sort_return); // particle_weight 벡터 컨테이너 정렬
-    if (particle_weight[0].WEIGHT > 15)                                // 가장 가중치가 높은 값이 30 이상일 경우 실행
+    if (particle_weight[0].WEIGHT > 20)                                // 가장 가중치가 높은 값이 30 이상일 경우 실행
     {
       if (qnode->vision_data_size / qnode->vision_data_cnt <= 1)
       {
