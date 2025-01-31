@@ -135,7 +135,7 @@ void QNode::ikCallback(const humanoid_interfaces::msg::IkCoordMsg::SharedPtr msg
   // PRE CONDITION : msg(IK)
   // POST CONDITION : Xmoved, Ymoved
   // purpose : IK에서 받아온 데이터 콜백 및 해당 데이터로 robot0의 위치 업데이트, 업데이트 된 위치에 파티클 가우시안 분포로 생성
-  std::cout<<"ik x:"<<msg->x<<std::endl;
+  // std::cout<<"ik x:"<<msg->x<<std::endl;
   double Xmoved = msg->x;
   double Ymoved = msg->y;
   robot0.move(Xmoved, Ymoved);
