@@ -20,7 +20,7 @@ QNode::QNode()
   node = rclcpp::Node::make_shared("robocup_localization25");
   this->start();
 
-  imu_sub_ = node->create_subscription<humanoid_interfaces::msg::ImuMsg>("imu", 10, std::bind(&QNode::imuCallback, this, std::placeholders::_1));
+  imu_sub_ = node->create_subscription<humanoid_interfaces::msg::ImuMsg>("Imu", rclcpp::QoS(rclcpp::KeepLast(10)).reliable().best_effort(), std::bind(&QNode::imuCallback, this, std::placeholders::_1));
   vision_sub_ = node->create_subscription<humanoid_interfaces::msg::Robocupvision25>("vision", 100, std::bind(&QNode::visionCallback, this, std::placeholders::_1));
   vision_feature_sub_ = node->create_subscription<humanoid_interfaces::msg::Robocupvision25feature>("vision_feature", 100, std::bind(&QNode::visionFeatureCallback, this, std::placeholders::_1));
   ik_sub_ = node->create_subscription<humanoid_interfaces::msg::IkCoordMsg>("ikcoordinate", 10, std::bind(&QNode::ikCallback, this, std::placeholders::_1));
@@ -135,7 +135,7 @@ void QNode::ikCallback(const humanoid_interfaces::msg::IkCoordMsg::SharedPtr msg
   // PRE CONDITION : msg(IK)
   // POST CONDITION : Xmoved, Ymoved
   // purpose : IK에서 받아온 데이터 콜백 및 해당 데이터로 robot0의 위치 업데이트, 업데이트 된 위치에 파티클 가우시안 분포로 생성
-
+  std::cout<<"ik x:"<<msg->x<<std::endl;
   double Xmoved = msg->x;
   double Ymoved = msg->y;
   robot0.move(Xmoved, Ymoved);
