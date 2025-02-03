@@ -14,7 +14,7 @@
 #include <iostream>
 #include <fstream>
 #include "../include/robocup_localization25/main_window.hpp"
-#include "../../robot_config.h"
+#include "/home/robit/colcon_ws/src/robot_config.h"
 
 float particle_range = 0.0; // is 100
 
@@ -384,22 +384,22 @@ void MainWindow::setting()
   {
     String param = "";
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_1
-    param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM1.txt";
+    param = "src/robocup_localization25/resources/param/PARAM1.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_2
-    param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM2.txt";
+    param = "src/robocup_localization25/resources/param/PARAM2.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_3
-    param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM3.txt";
+    param = "src/robocup_localization25/resources/param/PARAM3.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_4
-    param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM4.txt";
+    param = "src/robocup_localization25/resources/param/PARAM4.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_5
-    param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM5.txt";
+    param = "src/robocup_localization25/resources/param/PARAM5.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_6
-    param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM6.txt";
+    param = "src/robocup_localization25/resources/param/PARAM6.txt";
 #endif
     ifstream Last_Index_Num_IN(param);
     if (Last_Index_Num_IN.is_open())
@@ -409,6 +409,10 @@ void MainWindow::setting()
       Last_Index_Num_IN >> qnode->robot0.odom_bx;
       Last_Index_Num_IN >> qnode->robot0.odom_ly;
       Last_Index_Num_IN >> qnode->robot0.odom_ry;
+      std::cout << "Odom Load" << std::endl;
+    }
+    else{
+       std::cout << "No Odom Data" << std::endl;
     }
     Last_Index_Num_IN.close(); // setting_flag가 0이면 로드 된 데이터를 ui슬라이더에 적용
     ui->particle_range_value->setValue(particle_range);
@@ -878,22 +882,22 @@ void MainWindow::on_btn_objects_save_clicked()
 
   String param = "";
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_1
-  param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM1.txt";
+  param = "src/robocup_localization25/resources/param/PARAM1.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_2
-  param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM2.txt";
+  param = "src/robocup_localization25/resources/param/PARAM2.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_3
-  param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM3.txt";
+  param = "src/robocup_localization25/resources/param/PARAM3.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_4
-  param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM4.txt";
+  param = "src/robocup_localization25/resources/param/PARAM4.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_5
-  param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM5.txt";
+  param = "src/robocup_localization25/resources/param/PARAM5.txt";
 #endif
 #ifdef ROBIT_HUMANOID_ROBOT_NUMBER_6
-  param = "/home/robit/catkin_ws/src/robocup_localization24/resources/param/PARAM6.txt";
+  param = "src/robocup_localization25/resources/param/PARAM6.txt";
 #endif
   ofstream Last_Index_Num_OUT(param);
   if (Last_Index_Num_OUT.is_open())
@@ -903,6 +907,10 @@ void MainWindow::on_btn_objects_save_clicked()
     Last_Index_Num_OUT << qnode->robot0.odom_bx << endl;
     Last_Index_Num_OUT << qnode->robot0.odom_ly << endl;
     Last_Index_Num_OUT << qnode->robot0.odom_ry << endl;
+    std::cout << "Odom Param set" << std::endl;
+  }
+  else{
+    std::cout << "No Odom Prameter" << std::endl;
   }
   Last_Index_Num_OUT.close();
 }
