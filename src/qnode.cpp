@@ -76,7 +76,7 @@ void QNode::visionFeatureCallback(const humanoid_interfaces::msg::Robocupvision2
 
 void QNode::imuCallback(const humanoid_interfaces::msg::ImuMsg::SharedPtr msg)
 {
-  robot0.z = -msg->yaw;
+  robot0.z = msg->yaw;
 }
 
 void QNode::visionCallback(const humanoid_interfaces::msg::Robocupvision25::SharedPtr msg)
