@@ -20,7 +20,7 @@ QNode::QNode()
   node = rclcpp::Node::make_shared("robocup_localization25");
   this->start();
 
-  imu_sub_ = node->create_subscription<humanoid_interfaces::msg::ImuMsg>("imu", 10, std::bind(&QNode::imuCallback, this, std::placeholders::_1));
+  imu_sub_ = node->create_subscription<humanoid_interfaces::msg::ImuMsg>("Imu", rclcpp::QoS(rclcpp::KeepLast(10)).reliable().best_effort(), std::bind(&QNode::imuCallback, this, std::placeholders::_1));
   vision_sub_ = node->create_subscription<humanoid_interfaces::msg::Robocupvision25>("vision", 100, std::bind(&QNode::visionCallback, this, std::placeholders::_1));
   vision_feature_sub_ = node->create_subscription<humanoid_interfaces::msg::Robocupvision25feature>("vision_feature", 100, std::bind(&QNode::visionFeatureCallback, this, std::placeholders::_1));
   ik_sub_ = node->create_subscription<humanoid_interfaces::msg::IkCoordMsg>("ikcoordinate", 10, std::bind(&QNode::ikCallback, this, std::placeholders::_1));
