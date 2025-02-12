@@ -810,12 +810,12 @@ void MainWindow::featureCalc()
       {
         dis = 1;
       } // 나눗셈 결과 값이 1 이하일때 예외처리
-      measurement.WEIGHT /= dis;              // 가중치에 거리 값 나눗셈
+      //measurement.WEIGHT /= dis;              // 가중치에 거리 값 나눗셈
       particle_weight.push_back(measurement); // particle_weight 벡터 컨테이너에 해당 measurement값 저장
       // cout << "i : " << i << "  " << measurement.WEIGHT << endl;
     }
     sort(particle_weight.begin(), particle_weight.end(), sort_return); // particle_weight 벡터 컨테이너 정렬
-    if (particle_weight[0].WEIGHT > 30)                                // 가장 가중치가 높은 값이 30 이상일 경우 실행
+    if (particle_weight[0].WEIGHT > 70)                                // 가장 가중치가 높은 값이 30 이상일 경우 실행
     {
       if (qnode->vision_data_size / qnode->vision_data_cnt <= 1)
       {
